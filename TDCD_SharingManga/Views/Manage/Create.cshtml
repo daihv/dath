@@ -1,0 +1,77 @@
+﻿@model TDCD_SharingManga.Models.MangaDetail
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<script src="~/Assets/vendor/jquery/jquery.js"></script>
+<script type="text/javascript">
+    function BackToManage() {
+        window.location = window.location.origin + "/Manage/Index";
+    }
+    //function Create() {
+    //    var formData = new FormData(document.querySelector('form'))
+    //    function UploadImage(formData) {
+    //        $.ajax({
+    //            url: "/Manage/UploadImage",
+    //            type: 'POST',
+    //            data: new FormData(formData),
+    //            contentType: "application/x-www-form-urlencoded",
+    //            success: function (data) {
+    //                $("form").submit();
+    //            }
+    //        });
+    //    }
+    //}
+</script>
+@using (Html.BeginForm("UploadImage" ,"Manage", FormMethod.Post, new { enctype="multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Manga</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-4">Tên truyện</label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.displayName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.displayName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4">Giới thiệu</label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4">Tác giả</label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(model => model.author, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.author, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4">Ảnh bìa</label>
+            <div class="col-md-8">
+                <input type="file" id="imgFile" name="imgFile" value="Chọn ảnh"/>
+                @Html.ValidationMessageFor(model => model.imgFile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Create" class="btn btn-default"/>
+                <input type="button" value="Cancel" class="btn btn-default" onclick="BackToManage()"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

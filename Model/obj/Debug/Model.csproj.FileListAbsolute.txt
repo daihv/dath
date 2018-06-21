@@ -1,0 +1,12 @@
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\bin\Debug\Model.dll.config
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\bin\Debug\Model.dll
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\bin\Debug\Model.pdb
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\bin\Debug\EntityFramework.dll
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\bin\Debug\EntityFramework.xml
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.csproj.CopyComplete
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.dll
+C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.pdb

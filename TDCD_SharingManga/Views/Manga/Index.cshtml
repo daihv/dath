@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using TDCD_SharingManga.Models;
+@{
+    var i = (MangaDetail)Model;
+}
+<script src="~/Assets/vendor/jquery/jquery.min.js"></script>
+<script>
+    $(function () {
+        loadChapter(@i.mId);
+        activeTab($('.tab li:first-child'));
+        LoadTopMonth();
+        LoadTopAll();
+
+        $('.tab li').click(function () {
+            activeTab(this);
+            return false;
+        });
+    });
+    function loadChapter(mangaId) {
+        var url = window.location.origin + '/Manga/GetChapters?mangaId=' + mangaId
+        $.ajax({
+            url: url,
+            type: 'POST',
+            datatype: 'json',
+            contentType: "application/x-www-form-urlencoded",
+            success: function (data) {
+                debugger;
+                var listChapters = JSON.parse(JSON.stringify(data));
+                var result = "";
+                var url = window.location.origin + "/Manga/C/"
+                for (var i in listChapters) {
+                    result += "<p><a href='"+ url + listChapters[i].chapterId + "'>" + listChapters[i].displayName + "</a><span>" +
+                        listChapters[i].postTime + "</span ></p>";
+                }
+                $("#list-chapters").append(result);
+
+            },
+            error: function (err) {
+                var result = "<p>Không có chương</p>";
+                $("#list-chapters").append(result);
+            }
+        });
+    }
+
+    function LoadTopMonth() {
+        var url = window.location.origin + '/Manga/GetTopMonth'
+        $.ajax({
+            url: url,
+            type: 'POST',
+            datatype: 'json',
+            contentType: "application/x-www-form-urlencoded",
+            success: function (data) {
+                debugger;
+                var listMangas = JSON.parse(JSON.stringify(data));
+                var url = window.location.origin + "/Manga/Index/"
+                for (var i in listMangas) {
+                    var stt = parseInt(i) + 1;
+                    $("#tabs-top-month").append("<p>" +
+                        "<span class='ellipsis'>" + stt + ".<a href='" + url + listMangas[i].mId + "'>" + listMangas[i].displayName + "</a></span>" +
+                        "<span class='fl-r fs-11'>" + listMangas[i].totalView + "views</span>" +
+                        "</p>")
+                }
+
+            }
+        });
+    }
+
+    function LoadTopAll() {
+        var url = window.location.origin + '/Manga/GetTopAll';
+        $.ajax({
+            url: url,
+            type: 'POST',
+            datatype: 'json',
+            contentType: "application/x-www-form-urlencoded",
+            success: function (data) {
+                debugger;
+                var listMangas = JSON.parse(JSON.stringify(data));
+                var result = "";
+                var url = window.location.origin + "/Manga/Index/"
+                for (var i in listMangas) {
+                    var stt = parseInt(i) + 1;
+                    $("#tabs-top-all").append("<p>" +
+                        "<span class='ellipsis'>" + stt + ".<a href='" + url + listMangas[i].mId + "'>" + listMangas[i].displayName + "</a></span>" +
+                        "<span class='fl-r fs-11'>" + listMangas[i].totalView + "views</span>" +
+                        "</p>")
+                }
+            }
+        });
+    }
+
+    function activeTab(obj) {
+        // Xóa class active tất cả các tab
+        $('#tab-hot-story ul li').removeClass('active');
+
+        // Thêm class active vòa tab đang click
+        $(obj).addClass('active');
+
+        // Lấy href của tab để show content tương ứng
+        var id = $(obj).find('a').attr('href');
+
+        // Ẩn hết nội dung các tab đang hiển thị
+        $('.tab-item').hide();
+
+        // Hiển thị nội dung của tab hiện tại
+        $(id).show();
+    }
+
+
+</script>
+<div class="content row">
+    <div class="banner col-lg-12 col-sm-12 col-xs-12">
+
+    </div>
+    <div class="col-md-8">
+        <div class="content-body fa-border">
+            <h1>@i.displayName</h1>
+            <div class="thumbnail">
+                <img src="@i.image" />
+            </div>
+            <div class="detail fa-border">
+                <div class="title">SƠ LƯỢC</div>
+                <div class="description">
+                    @i.description
+                </div>
+            </div>
+            <div class="manga-information">
+                <p>Tác giả: @i.author</p>
+                <p>Người đăng: @i.createdBy</p>
+                <p>Lượt xem: @i.totalView</p>
+                <p>Update: @i.updatedAt.ToString()</p>
+            </div>
+            <div class="chapters fa-border">
+                <p>Tổng hợp @i.chapters chương</p>
+                <div id="loadChaper">
+                    <p>
+                        <span class="title-chapter">Tên chương</span>
+                        <span class="published-date">Ngày đăng</span>
+                    </p>
+                    <div id="list-chapters">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div data-cookie-id="widgetTopManga" class="portlet ui-widget ui-widget-content ui-helper-clearfix">
+            <div class="portlet-header bg-coral ui-widget-header"><span class="ui-icon portlet-toggle ui-icon-minusthick"></span>Truyện hay</div>
+            <div class="portlet-content tabs" id="tab-hot-story" style="">
+                <ul class="tab">
+                    <li><a href="#tabs-top-month">TOP MONTH</a></li>
+                    <li><a href="#tabs-top-all">TOP ALL</a></li>
+                </ul>
+                <div id="tabs-top-month" class="tab-item">
+                </div>
+                <div id="tabs-top-all" class="tab-item"">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

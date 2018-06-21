@@ -1,0 +1,41 @@
+﻿@using TDCD_SharingManga.Models;
+@{
+    ViewBag.Title = "UploadedManga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var stt = (Model.page - 1) * Model.pageSize + 1;
+    var listManga = (IEnumerable<MangaDetail>)Model.listManga;
+}
+<script type="text/javascript"></script>
+<div id="uploaded-content">
+    <h1>Danh sách truyện đã upload</h1>
+    <div id="list-uploaded-manga">
+        <div class="row">
+            <span class="col-md-1">Stt</span>
+            <span class="col-md-5">Tên truyện</span>
+            <span class="col-md-3">Update ngày</span>
+            <span class="col-md-3">Tác giả</span>
+        </div>
+        @if (listManga.Count() == 0)
+        {
+        <span class="col-md-12">Bạn chưa upload truyện</span>
+        <a class="col-md-12" href="/Manage/Create">Upload tryện ngay bây giờ</a>
+        }
+        else
+        {
+            foreach (var item in listManga)
+            {
+                <div class="row">
+                    <span class="col-md-1">@stt</span>
+                    <a class="col-md-5" href="/Manage/Manga?id=@item.mId">@item.displayName</a>
+                    <span class="col-md-3">@item.updatedAt.ToString()</span>
+                    <span class="col-md-3">@item.author</span>
+                </div>
+                @stt = stt + 1;
+            }
+        }
+    </div>
+    <div class="col-md-12 pager">
+        @Html.Pager((int)Model.pageSize, (int)Model.page, (int)Model.total)
+    </div>
+</div>
+

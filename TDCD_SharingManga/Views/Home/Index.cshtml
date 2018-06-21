@@ -1,0 +1,139 @@
+﻿@using TDCD_SharingManga.Models;
+@{
+    ViewBag.Title = "Home Page";
+    var listItem = (IEnumerable<MangaDetail>)Model.listManga;
+}
+<head>
+    <script language="JavaScript" type="text/javascript" src="~/Assets/vendor/jquery/jquery.js"></script>
+</head>
+<script >
+
+    $(document).ready(function () {
+        
+        activeTab($('.tab li:first-child'));
+        LoadTopMonth();
+        LoadTopAll();
+
+        $('.tab li').click(function () {
+            activeTab(this);
+            return false;
+        });
+    });
+
+    function LoadTopMonth() {
+        var url = window.location.origin + '/Manga/GetTopMonth'
+        $.ajax({
+            url: url,
+            type: 'POST',
+            datatype: 'json',
+            contentType: "application/x-www-form-urlencoded",
+            success: function (data) {
+                debugger;
+                var listMangas = JSON.parse(JSON.stringify(data));
+                var url = window.location.origin + "/Manga/Index/"
+                for (var i in listMangas) {
+                    var stt = parseInt(i) + 1;
+                    $("#tabs-top-month").append("<p>" +
+                        "<span class='ellipsis'>" + stt + ".<a href='" + url + listMangas[i].mId + "'>" + listMangas[i].displayName + "</a></span>" +
+                        "<span class='fl-r fs-11'>" + listMangas[i].totalView + "views</span>" +
+                        "</p>")
+                }
+
+            }
+        });
+    }
+
+    function LoadTopAll() {
+        var url = window.location.origin + '/Manga/GetTopAll';
+        $.ajax({
+            url: url,
+            type: 'POST',
+            datatype: 'json',
+            contentType: "application/x-www-form-urlencoded",
+            success: function (data) {
+                debugger;
+                var listMangas = JSON.parse(JSON.stringify(data));
+                var result = "";
+                var url = window.location.origin + "/Manga/Index/"
+                for (var i in listMangas) {
+                    var stt = parseInt(i) + 1;
+                    $("#tabs-top-all").append("<p>" +
+                        "<span class='ellipsis'>" + stt + ".<a href='" + url + listMangas[i].mId + "'>" + listMangas[i].displayName + "</a></span>" +
+                        "<span class='fl-r fs-11'>" + listMangas[i].totalView + "views</span>" + 
+                    "</p>")
+                }
+            }
+        });
+    }
+
+    function activeTab(obj) {
+        // Xóa class active tất cả các tab
+        $('#tab-hot-story ul li').removeClass('active');
+
+        // Thêm class active vòa tab đang click
+        $(obj).addClass('active');
+
+        // Lấy href của tab để show content tương ứng
+        var id = $(obj).find('a').attr('href');
+
+        // Ẩn hết nội dung các tab đang hiển thị
+        $('.tab-item').hide();
+
+        // Hiển thị nội dung của tab hiện tại
+        $(id).show();
+    }
+
+
+</script>
+<div class="content row">
+    <div class="banner col-lg-12 col-sm-12 col-xs-12">
+
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            @foreach (var i in listItem)
+    {
+        <div class="storyitem fa-border">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <a href="/Manga/Index/@i.mId" title="@i.displayName">
+                        <img src="@i.image" alt="@i.displayName" class="img img-thumbnail">
+                    </a>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <h3 class="title text-ellipsis"><a href="/Manga/Index/@i.mId" title="@i.displayName">@i.displayName</a></h3>
+                    <div class="publishedDate">
+                        <i class="fa fa-clock-o fs-14"></i>&nbsp; @i.updatedAt.ToString()
+                    </div>
+                    <div class="statictis mt5">
+                        <i class="fa fa-eye" class="view"></i> @i.totalView
+                    </div>
+                    <div class="statictis mt5">
+                        <span class="count"><span class="color-red">@i.chapters</span> chương</span> -
+                        <span class="count"><span class="color-red">@i.totalComment</span> bình luận</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div data-cookie-id="widgetTopManga" class="portlet ui-widget ui-widget-content ui-helper-clearfix">
+            <div class="portlet-header bg-coral ui-widget-header"><span class="ui-icon portlet-toggle ui-icon-minusthick"></span>Truyện hay</div>
+            <div class="portlet-content tabs" id="tab-hot-story" style="">
+                <ul class="tab">
+                    <li><a href="#tabs-top-month">TOP MONTH</a></li>
+                    <li><a href="#tabs-top-all">TOP ALL</a></li>
+                </ul>
+                <div id="tabs-top-month" class="tab-item">
+                </div>
+                <div id="tabs-top-all" class="tab-item">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 pager">
+        @Html.Pager((int)Model.pageSize, (int)Model.page, (int)Model.total)
+    </div>
+</div>

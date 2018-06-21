@@ -1,0 +1,27 @@
+﻿@model TDCD_SharingManga.Models.ChapterDetail
+@{
+    ViewBag.Title = "C";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="linkchapter">
+    <h1>@Model.displayName</h1>
+    @if (Model.prevChapter != 0)
+    {
+        <a href="/Manga/C/@Model.prevChapter">Chap trước</a>
+    }
+    <a href="/Manga/Index/@Model.mId">Về trang truyện</a>
+    @if (Model.nextChapter != 0)
+    {
+        <a href="/Manga/C/@Model.nextChapter">Chap trước</a>
+    }
+</div>
+
+<article id="chapter-content">
+    @foreach (var item in Model.Images)
+    {
+        <img src="@item" />
+    }
+</article>
+

@@ -1,0 +1,26 @@
+﻿@using TDCD_SharingManga.Common
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = (UserLogin)Session[Constants.USER_SESSION];
+}
+@if (user != null)
+{
+    <div class="container mt-3 " id="menu-manage">
+    <br>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="/Manage/Create/">Thêm mới truyện</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Manage/UploadedManga">Truyện đã đăng</a>
+        </li>
+    </ul>
+</div>
+}
+else
+{
+    @Html.ActionLink("User", "Index");
+}
+

@@ -1,0 +1,98 @@
+﻿@using  TDCD_SharingManga.Common
+@{ 
+    var session = (UserLogin)Session[Constants.USER_SESSION];
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="~/Styles/style.css" rel="stylesheet" />
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="~/Assets/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Assets/dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="~/Assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("TDCD.com", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if(session == null)
+                    {
+                        <li>@Html.ActionLink("Đăng ký", "Index", "User")</li>
+                        <li>@Html.ActionLink("Đăng nhập", "Index", "Login")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Quản lý", "Index", "Manage")</li>
+                    }
+                    <li>@Html.ActionLink("Đăng xuất", "Logout", "Login")</li>
+                </ul>
+                <input id="search-manga" type="text" onkeyup="SearchKeyword()" placeholder="Nhập tên truyện..." />
+                <div id="list-manga-search">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - TDCD - The best sharing manga site</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script>
+    function SearchKeyword() {
+        var url = window.location.origin + '/Manga/GetManga?name=' + $("#search-manga").val();
+        $.ajax({
+            url: url,
+            type: 'POST',
+            datatype: 'json',
+            contentType: "application/x-www-form-urlencoded",
+            success: function (data) {
+                var listManga = JSON.parse(JSON.stringify(data));
+                var url1 = window.location.origin + "/Manga/Index/";
+                $('#list-manga-search ul').empty();
+                for (var i in listManga) {
+                    debugger;
+                    $("#list-manga-search ul").append("<li><a href='" + url1 + listManga[i].mId + "'>" + listManga[i].displayName + "</a></li>");
+                }
+            }
+        });
+    };
+</script>
