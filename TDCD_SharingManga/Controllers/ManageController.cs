@@ -98,8 +98,8 @@ namespace TDCD_SharingManga.Controllers
                         mId = i.mId,
                         author = i.mAuthor,
                         updatedAt = i.updatedAt,
-                        chapters = i.mChapter
-
+                        chapters = i.mChapter,
+                        status = i.status
                     }).ToList();
                     total = list.Count();
                 }

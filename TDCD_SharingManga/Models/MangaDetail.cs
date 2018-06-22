@@ -19,6 +19,7 @@ namespace TDCD_SharingManga.Models
         public string author { get; set; }
         public string lastestChapter { get; set; }
         public int totalView { get; set; }
+        public int status { get; set; }
         public HttpPostedFileBase imgFile { get; set; }
     }
 }
