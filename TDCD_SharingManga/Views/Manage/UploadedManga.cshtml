@@ -1,8 +1,9 @@
-﻿@using TDCD_SharingManga.Models;
+﻿@using TDCD_SharingManga.Common;
+@using TDCD_SharingManga.Models;
 @{
     ViewBag.Title = "UploadedManga";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var stt = (Model.page - 1) * Model.pageSize + 1;
+    var stt = (int)((Model.page - 1) * Model.pageSize + 1);
     var listManga = (IEnumerable<MangaDetail>)Model.listManga;
 }
 <script type="text/javascript"></script>
@@ -12,8 +13,8 @@
         <div class="row">
             <span class="col-md-1">Stt</span>
             <span class="col-md-5">Tên truyện</span>
-            <span class="col-md-3">Update ngày</span>
-            <span class="col-md-3">Tác giả</span>
+            <span class="col-md-2">Update ngày</span>
+            <span class="col-md-4"></span>
         </div>
         @if (listManga.Count() == 0)
         {
@@ -26,11 +27,21 @@
             {
                 <div class="row">
                     <span class="col-md-1">@stt</span>
-                    <a class="col-md-5" href="/Manage/Manga?id=@item.mId">@item.displayName</a>
-                    <span class="col-md-3">@item.updatedAt.ToString()</span>
-                    <span class="col-md-3">@item.author</span>
+                    <a class="col-md-5" href="/Manage/Manga/@item.mId">@item.displayName</a>
+                    <span class="col-md-2">@item.updatedAt.ToString()</span>
+                    <span class="col-md-4">
+                        @if (item.status == (int)Constants.STATUS.Published)
+                        {
+                            <a href="/Manage/UnPublished?id=@item.mId">Unpublished</a>
+                        }
+                        else
+                        {
+                            <a href="/Manage/Published?id=@item.mId">Published</a>
+                        }
+                        <a href="/Manage/Delete?id=@item.mId">Delete</a>
+                    </span>
                 </div>
-                @stt = stt + 1;
+                stt++;
             }
         }
     </div>

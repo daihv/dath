@@ -1,22 +1,35 @@
 ﻿@model TDCD_SharingManga.Models.MangaDetail
+
 @{
-    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "Manga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script src="~/Assets/vendor/jquery/jquery.js"></script>
 <script type="text/javascript">
+
+    $(function () {
+        $('#mId').val(@Model.mId);
+    });
+
     function BackToManage() {
         window.location = window.location.origin + "/Manage/Index";
     }
 </script>
-@using (Html.BeginForm("UploadImage" ,"Manage", FormMethod.Post, new { enctype="multipart/form-data"}))
+
+<h2>Manga</h2>
+
+@using (Html.BeginForm("Manga", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <h4>Manga</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group" hidden>
+            <input type="text" id="mId" name="mId" />
+        </div>
+
         <div class="form-group">
             <label class="control-label col-md-4">Tên truyện</label>
             <div class="col-md-8">
@@ -28,7 +41,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Giới thiệu</label>
             <div class="col-md-8">
-                @Html.TextArea(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,15 +57,15 @@
         <div class="form-group">
             <label class="control-label col-md-4">Ảnh bìa</label>
             <div class="col-md-8">
-                <input type="file" id="imgFile" name="imgFile" value="Chọn ảnh"/>
-                @Html.ValidationMessageFor(model => model.imgFile, "", new { @class = "text-danger" })
+                <img src="@Model.image" alt="@Model.displayName" />
+                <input type="file" id="imgFile" name="imgFile" value="Thay ảnh" />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-4 col-md-8">
-                <input type="submit" value="Create" class="btn btn-default"/>
-                <input type="button" value="Cancel" class="btn btn-default" onclick="BackToManage()"/>
+                <input type="submit" value="Update" class="btn btn-default" />
+                <input type="button" value="Cancel" class="btn btn-default" onclick="BackToManage()" />
             </div>
         </div>
     </div>
