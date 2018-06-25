@@ -36,25 +36,29 @@ namespace TDCD_SharingManga.Controllers
                 fileName = item.imgFile.FileName;
                 if (item.imgFile.ContentLength > 0)
                 {
+                    var manga = new Manga();
+                    manga.mName = item.displayName;
+                    manga.publishedAt = DateTime.Now;
+                    manga.updatedAt = DateTime.Now;
+                    manga.mAuthor = item.author;
+                    manga.CreatedBy = user.UserId;
+                    manga.mDescription = item.description;
+                    MangaDao dao = new MangaDao();
+                    int id = dao.AddManga(manga);
                     if (Path.GetExtension(fileName).ToLower() == ".jpg"
                         || Path.GetExtension(fileName).ToLower() == ".png"
                         || Path.GetExtension(fileName).ToLower() == ".gif"
                         || Path.GetExtension(fileName).ToLower() == ".jpeg")
                     {
-                        string currentDir = HttpRuntime.AppDomainAppPath;
-                        string dir = Path.Combine(HttpRuntime.AppDomainAppPath, "Image");
+                        string currentDir = Path.Combine(HttpRuntime.AppDomainAppPath, "Image");
+                        if (!Directory.Exists(Path.Combine(currentDir, id.ToString())))
+                            Directory.CreateDirectory(Path.Combine(currentDir, id.ToString()));
+                        string dir = Path.Combine(currentDir, id.ToString());
                         path = Path.Combine(dir, fileName);
                         item.imgFile.SaveAs(path);
-                        var manga = new Manga();
-                        manga.mName = item.displayName;
-                        manga.publishedAt = DateTime.Now;
-                        manga.updatedAt = DateTime.Now;
-                        manga.mAuthor = item.author;
-                        manga.CreatedBy = user.UserId;
+
                         manga.image = "/Image/" + item.imgFile.FileName;
-                        manga.mDescription = item.description;
-                        MangaDao dao = new MangaDao();
-                        dao.AddManga(manga);
+                        db.SaveChanges();
                     }
 
                 }
@@ -177,12 +181,15 @@ namespace TDCD_SharingManga.Controllers
                             || Path.GetExtension(fileName).ToLower() == ".gif"
                             || Path.GetExtension(fileName).ToLower() == ".jpeg")
                         {
-                            string currentDir = HttpRuntime.AppDomainAppPath;
-                            string dir = Path.Combine(HttpRuntime.AppDomainAppPath, "Image");
+                            string currentDir = Path.Combine(HttpRuntime.AppDomainAppPath, "Image");
+                            if (!Directory.Exists(Path.Combine(currentDir, manga.mId.ToString())))
+                                Directory.CreateDirectory(Path.Combine(currentDir, manga.mId.ToString()));
+                            //var s = "/Images" + manga.mId.ToString();
+                            string dir = Path.Combine(currentDir, manga.mId.ToString());
                             path = Path.Combine(dir, fileName);
                             mangaDetail.imgFile.SaveAs(path);
                         }
-                        manga.image = "/Image/" + mangaDetail.imgFile.FileName;
+                        manga.image = "/Image/" + manga.mId.ToString() + "/" + mangaDetail.imgFile.FileName;
                     }
                 }
                 manga.mName = mangaDetail.displayName;
@@ -204,6 +211,64 @@ namespace TDCD_SharingManga.Controllers
             }).ToList();
             return Json(listChapter, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public ActionResult AddChapter(int id)
+        {
+            var user = (UserLogin)Session[Constants.USER_SESSION];
+            var manga = db.Mangas.Where(i => i.mId == id).FirstOrDefault();
+            if(user.UserId != manga.CreatedBy)
+            {
+                return RedirectToAction("Error");
+            }
+            var chapter = new ChapterDetail();
+            chapter.mId = id;
+            return View(chapter);
+        }
 
+        [HttpPost]
+        public ActionResult AddChapter(ChapterDetail chapter)
+        {
+            var dao = new MangaDao();
+            var path = "";
+            var fileName = "";
+            var imgList = new List<ImageViewModel>();
+            var user = (UserLogin)Session[Constants.USER_SESSION];
+            if (chapter.imgFile.Any())
+            {
+                var c = new Chapter();
+                c.cName = chapter.displayName;
+                c.cPostOn = DateTime.Now;
+                c.mId = chapter.mId;
+                var cId = dao.AddChapter(c);
+                var currentDir = Path.Combine(HttpRuntime.AppDomainAppPath, "Image" , chapter.mId.ToString(), cId.ToString());
+                if (!Directory.Exists(currentDir))
+                    Directory.CreateDirectory(currentDir);
+                foreach (var file in chapter.imgFile)
+                {
+                    fileName = file.FileName;
+                    if (file.ContentLength > 0)
+                    {
+                        if (Path.GetExtension(fileName).ToLower() == ".jpg"
+                            || Path.GetExtension(fileName).ToLower() == ".png"
+                            || Path.GetExtension(fileName).ToLower() == ".gif"
+                            || Path.GetExtension(fileName).ToLower() == ".jpeg")
+                        {
+                            file.SaveAs(Path.Combine(currentDir, fileName));
+                            var image = new ImageViewModel();
+                            image.src = "/Image/" + c.mId.ToString() + "/" + c.cId.ToString() + "/" + fileName;
+                            imgList.Add(image);
+                        }
+                    }
+                }
+                foreach(var img in imgList)
+                {
+                    var i = new Image();
+                    i.cId = cId;
+                    i.source = img.src;
+                    dao.AddImage(i);
+                }
+            }
+            return RedirectToAction("UploadedManga");
+        }
     }
 }
