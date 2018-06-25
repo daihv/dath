@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="Models\ChapterDetail.cs" />
     <Compile Include="Models\ChapterInfo.cs" />
+    <Compile Include="Models\ImageViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MangaDetail.cs" />
     <Compile Include="Models\PageListModel.cs" />
@@ -376,6 +377,8 @@
     <Content Include="Views\Manage\Create.cshtml" />
     <Content Include="Views\Manage\Error.cshtml" />
     <Content Include="Views\Manage\UploadedManga.cshtml" />
+    <Content Include="Views\Manage\Manga.cshtml" />
+    <Content Include="Views\Manage\AddChapter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
