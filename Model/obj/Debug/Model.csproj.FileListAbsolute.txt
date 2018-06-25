@@ -10,3 +10,15 @@ C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.csproj.CoreC
 C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.csproj.CopyComplete
 C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.dll
 C:\Users\shini\source\repos\TDCD_SharingManga\Model\obj\Debug\Model.pdb
+F:\ĐA tổng hợp\dath-master\dath\Model\bin\Debug\Model.dll.config
+F:\ĐA tổng hợp\dath-master\dath\Model\bin\Debug\Model.dll
+F:\ĐA tổng hợp\dath-master\dath\Model\bin\Debug\Model.pdb
+F:\ĐA tổng hợp\dath-master\dath\Model\bin\Debug\EntityFramework.dll
+F:\ĐA tổng hợp\dath-master\dath\Model\bin\Debug\EntityFramework.SqlServer.dll
+F:\ĐA tổng hợp\dath-master\dath\Model\bin\Debug\EntityFramework.xml
+F:\ĐA tổng hợp\dath-master\dath\Model\bin\Debug\EntityFramework.SqlServer.xml
+F:\ĐA tổng hợp\dath-master\dath\Model\obj\Debug\Model.csprojAssemblyReference.cache
+F:\ĐA tổng hợp\dath-master\dath\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
+F:\ĐA tổng hợp\dath-master\dath\Model\obj\Debug\Model.csproj.CopyComplete
+F:\ĐA tổng hợp\dath-master\dath\Model\obj\Debug\Model.dll
+F:\ĐA tổng hợp\dath-master\dath\Model\obj\Debug\Model.pdb
