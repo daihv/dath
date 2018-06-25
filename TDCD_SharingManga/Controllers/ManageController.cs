@@ -19,12 +19,14 @@ namespace TDCD_SharingManga.Controllers
         {
             return View();
         }
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            var manga = new MangaDetail();
+            return View(manga);
         }
         [HttpPost]
-        public ActionResult UploadImage(MangaDetail item)
+        public ActionResult Create(MangaDetail item)
         {
             var path = "";
             var fileName = "";
@@ -191,5 +193,17 @@ namespace TDCD_SharingManga.Controllers
             }
             return RedirectToAction("UploadedManga");
         }
+
+        public JsonResult GetChapters(int mangaId)
+        {
+            var listChapter = db.Chapters.Where(i => i.mId == mangaId).OrderBy(i => i.cPostOn).Select(i => new ChapterInfo
+            {
+                chapterId = i.cId,
+                displayName = i.cName,
+                postTime = i.cPostOn.ToString()
+            }).ToList();
+            return Json(listChapter, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

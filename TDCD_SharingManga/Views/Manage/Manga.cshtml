@@ -10,10 +10,45 @@
 
     $(function () {
         $('#mId').val(@Model.mId);
+        $("#imgFile").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#cover-photo").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        })
+
+        LoadChapter();
     });
 
     function BackToManage() {
         window.location = window.location.origin + "/Manage/Index";
+    }
+
+    function LoadChapter() {
+        $.ajax({
+            url: window.location.origin + "/Manage/GetChapters?mangaId=@Model.mId",
+            type: 'POST',
+            datatype: 'json',
+            contentType: "application/x-www-form-urlencoded",
+            success: function (data) {
+                var listChapters = JSON.parse(JSON.stringify(data));
+                var result = "";
+                var url1 = window.location.origin + "/Manga/C/";
+                for (var i in listChapters) {
+                    result += "<p><a href='" + url1 + listChapters[i].chapterId + "'>" + listChapters[i].displayName + "</a><span>" +
+                        listChapters[i].postTime + "</span ><a href='/Manage/DeleteChapter/'" + listChapters[i].chapterId +">Xóa</a></p>";
+                }
+                $("#list-chapters").append(result);
+
+            },
+            error: function (err) {
+                var result = "<p>Chưa có chương nào</p>";
+                $("#list-chapters").append(result);
+            }
+        });
     }
 </script>
 
@@ -57,9 +92,29 @@
         <div class="form-group">
             <label class="control-label col-md-4">Ảnh bìa</label>
             <div class="col-md-8">
-                <img src="@Model.image" alt="@Model.displayName" />
-                <input type="file" id="imgFile" name="imgFile" value="Thay ảnh" />
+                <img id="cover-photo" src="@Model.image" alt="@Model.displayName" />
+                <input type="file" id="imgFile" name="imgFile" value="Thay ảnh"/>
             </div>
+        </div>
+
+        <div class="form-group">
+            <class ="col-md-12" id="list-chapters">
+                <div class="chapters fa-border">
+                    <span>
+                        <p>Tổng hợp @Model.chapters chương</p>
+                        <a href="/Manage/AddChapter/@Model.mId">Thêm chương mới</a>
+                    </span>
+                    <div class="row" id="loadChaper">
+                        <p>
+                            <span class="title-chapter">Tên chương</span>
+                            <span class="published-date">Ngày đăng</span>
+                            <span class="action-chapter"></span>
+                        </p>
+                        <div id="list-chapters">
+                        </div>
+                    </div>
+                </div>
+            </class>
         </div>
 
         <div class="form-group">
