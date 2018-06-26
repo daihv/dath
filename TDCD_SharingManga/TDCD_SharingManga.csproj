@@ -170,6 +170,7 @@
     </Compile>
     <Compile Include="Models\ChapterDetail.cs" />
     <Compile Include="Models\ChapterInfo.cs" />
+    <Compile Include="Models\ImageViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MangaDetail.cs" />
     <Compile Include="Models\PageListModel.cs" />
