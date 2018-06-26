@@ -376,6 +376,8 @@
     <Content Include="Views\Manage\Create.cshtml" />
     <Content Include="Views\Manage\Error.cshtml" />
     <Content Include="Views\Manage\UploadedManga.cshtml" />
+    <Content Include="Views\Manage\AddChapter.cshtml" />
+    <Content Include="Views\Manage\Manga.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -56,8 +56,8 @@ namespace TDCD_SharingManga.Controllers
                         string dir = Path.Combine(currentDir, id.ToString());
                         path = Path.Combine(dir, fileName);
                         item.imgFile.SaveAs(path);
-
-                        manga.image = "/Image/" + item.imgFile.FileName;
+                        var _manga = db.Mangas.Where(i => i.mId == id).FirstOrDefault();
+                        _manga.image = "/Image/" + manga.mId.ToString() + "/" + item.imgFile.FileName;
                         db.SaveChanges();
                     }
 
