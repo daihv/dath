@@ -5,11 +5,23 @@
 
 <script src="~/Assets/vendor/jquery/jquery.js"></script>
 <script type="text/javascript">
+    $(function () {
+        debugger;
+        $("#imgFile").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#cover-photo").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        })
+    });
     function BackToManage() {
         window.location = window.location.origin + "/Manage/Index";
     }
 </script>
-@using (Html.BeginForm("UploadImage" ,"Manage", FormMethod.Post, new { enctype="multipart/form-data"}))
+@using (Html.BeginForm("Create" ,"Manage", FormMethod.Post, new { enctype="multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
 
@@ -28,7 +40,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Giới thiệu</label>
             <div class="col-md-8">
-                @Html.TextArea(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,7 +56,8 @@
         <div class="form-group">
             <label class="control-label col-md-4">Ảnh bìa</label>
             <div class="col-md-8">
-                <input type="file" id="imgFile" name="imgFile" value="Chọn ảnh"/>
+                <input type="file" id="imgFile" name="imgFile" value="Chọn ảnh" />
+                <img id="cover-photo" src="@Model.image" alt="@Model.displayName" />
                 @Html.ValidationMessageFor(model => model.imgFile, "", new { @class = "text-danger" })
             </div>
         </div>

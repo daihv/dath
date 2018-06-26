@@ -24,8 +24,16 @@ namespace Model.DAO
         public int AddChapter(Chapter entity)
         {
             db.Chapters.Add(entity);
+            var manga = db.Mangas.Where(i => i.mId == entity.mId).FirstOrDefault();
+            manga.mChapter++;
             db.SaveChanges();
             return entity.cId;
+        }
+        public int AddImage(Image entity)
+        {
+            db.Images.Add(entity);
+            db.SaveChanges();
+            return entity.iId;
         }
         public void AddView(int mangaId)
         {

@@ -1,0 +1,100 @@
+﻿@model TDCD_SharingManga.Models.ChapterDetail
+@{
+    ViewBag.Title = "AddChapter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Assets/vendor/jquery/jquery.js"></script>
+<script type="text/javascript">
+    var filesAmount = 0;
+    var start = 0;
+    var fileInput = [];
+    $(function () {
+        $('#mId').val(@Model.mId);
+        $("#imgFiles").change(function () {
+            if (this.files) {
+                fileInput = [];
+                $("#list-images").empty();
+                filesAmount = this.files.length;
+                start = 0;
+                for (i = 0; i < filesAmount; i++)
+                {
+                    fileInput.push(this.files[i]);
+                }
+                //for (i = 0; i < filesAmount; i++) {
+                //    var reader = new FileReader();
+                //    var name = this.files[i].name;
+                //    debugger;
+                //    reader.onload = function (e) {
+                //        var template = "<div id=' + file-" + i + "'>" +
+                //            "<span class='file-name'>" + name + "</span>" +
+                //            "<img src='" + e.target.result + "' />" +
+                //            "</div>";
+                //        $("#list-images").append(template);
+                //    }
+
+                //    reader.readAsDataURL(this.files[i]);
+                //}
+                ReadNext(0, fileInput[0].name);
+            }
+        })
+    });
+    function BackToManga() {
+        window.location = "/Manage/Manga/@Model.mId";
+    }
+    function ReadNext(i, name) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var template = "<div id=' + file-" + i + "'>" +
+                "<span class='file-name'>" + name + "</span>" +
+                "<img src='" + e.target.result + "' />" +
+                "</div>";
+            $("#list-images").append(template);
+            start++;
+            if (start < filesAmount)
+                ReadNext(start, fileInput[start].name);
+        }
+        reader.readAsDataURL(fileInput[i]);
+    }
+</script>
+<h2>Add new chapter</h2>
+
+@using (Html.BeginForm("AddChapter", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <h4>Chapter</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group" hidden>
+        <input type="text" id="mId" name="mId" />
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-4">Tên hiển thị</label>
+        <div class="col-md-8">
+            @Html.TextBoxFor(model => model.displayName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.displayName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-4">Nội dung</label>
+        <div class="col-md-8">
+            <input multiple type="file" id="imgFiles" name="imgFile" value="Browse" />
+            <div class="row" id="list-images">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-4 col-md-8">
+            <input type="submit" value="Update" class="btn btn-default" />
+            <input type="button" value="Cancel" class="btn btn-default" onclick="BackToManga()" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
