@@ -739,6 +739,7 @@ input, button, select, textarea {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+    border-radius: 10px;
 }
 button, select {
     text-transform: none;
@@ -794,6 +795,10 @@ a {
 .panel-body .row{
     margin-left: 30%;
 }
+.panel-body {
+    background: #555555;
+    text-align: center;
+}
 #menu-manage{
     margin-top: 50px;
 }
@@ -806,4 +811,22 @@ a {
 .name {
     text-align: center;
     color: red;
+}
+.title {
+    background: #000000;
+    color: #ffffff;
+    text-align: center;
+}
+.control-label col-md-4 {
+    width: 300px;
+    color: #ffffff;
+}
+.checkbox {
+    color: #ffffff;
+}
+.slogan {
+    margin-left: 300px;
+    margin-top: 200px;
+    color: #FFCC00;
+}
 }

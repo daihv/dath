@@ -43,6 +43,11 @@
                 @Html.ActionLink("TDCD.com", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
+
+                <input id="search-manga" type="text" onkeyup="SearchKeyword()" placeholder="Nhập tên truyện..." />
+                <div id="list-manga-search">
+                    <ul></ul>
+                </div>
                 <ul class="nav navbar-nav">
                     @if (session == null)
                     {
@@ -52,13 +57,10 @@
                     else
                     {
                         <li>@Html.ActionLink("Quản lý", "Index", "Manage")</li>
+                        <li>@Html.ActionLink("Đăng xuất", "Logout", "Login")</li>
                     }
-                    <li>@Html.ActionLink("Đăng xuất", "Logout", "Login")</li>
+
                 </ul>
-                <input id="search-manga" type="text" onkeyup="SearchKeyword()" placeholder="Nhập tên truyện..." />
-                <div id="list-manga-search">
-                    <ul></ul>
-                </div>
             </div>
         </div>
     </div>
