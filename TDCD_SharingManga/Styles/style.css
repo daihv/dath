@@ -108,6 +108,15 @@ ul, ol {
     margin-top: 0;
     margin-bottom: 10px;
 }
+* {
+    margin: 0;
+    padding: 0;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 ul, menu, dir {
     display: block;
     list-style-type: disc;
@@ -133,6 +142,15 @@ header, footer, nav, section {
 }
 li {
     margin-left: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 li {
     display: list-item;
@@ -160,6 +178,20 @@ a {
     color: #428bca;
     text-decoration: none;
 }
+* {
+    margin: 0;
+    padding: 0;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: auto;
+    text-decoration: underline;
+}
 .widget-top-forum .nav-tabs li.title {
     float: left;
     line-height: 42px;
@@ -180,6 +212,10 @@ a {
 }
 li {
     margin-left: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
 }
 *, *:before, *:after {
     -webkit-box-sizing: border-box;
@@ -368,6 +404,7 @@ ul, ol {
     background: transparent url(/Content/themes/base/images/uiTabsArrow.png) no-repeat bottom center;
     border: none;
 }
+Tab.css:5
 #tab-hot-story > ul > li {
     background: transparent;
     display: inline-block;
@@ -408,9 +445,11 @@ a {
     border: none;
     margin-bottom: -1px;
 }
+css?v=3NptkX5Yg…QuhsntExs3Q1:1
 #tab-hot-story li {
     margin: 0;
 }
+css?v=3NptkX5Yg…QuhsntExs3Q1:1
 li {
     margin-left: 0;
 }
@@ -782,12 +821,8 @@ a {
 #search-manga {
     margin: 12px;
     float: right;
-    border-radius: 10px;
-    background: none;
-    color: #ffffff;
-    width: 400px;
 }
-#list-manga-search {
+#list-manga-search{
     position: absolute;
     right: 200px;
     top: 50px;
@@ -828,5 +863,4 @@ a {
     margin-left: 500px;
     margin-top: 200px;
     color: #FFCC00;
-}
 }

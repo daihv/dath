@@ -288,7 +288,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Images\banner.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -377,8 +376,6 @@
     <Content Include="Views\Manage\Create.cshtml" />
     <Content Include="Views\Manage\Error.cshtml" />
     <Content Include="Views\Manage\UploadedManga.cshtml" />
-    <Content Include="Views\Manage\Manga.cshtml" />
-    <Content Include="Views\Manage\AddChapter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
