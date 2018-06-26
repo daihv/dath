@@ -27,6 +27,7 @@
             datatype: 'json',
             contentType: "application/x-www-form-urlencoded",
             success: function (data) {
+                debugger;
                 var listChapters = JSON.parse(JSON.stringify(data));
                 var result = "";
                 var url = window.location.origin + "/Manga/C/"
