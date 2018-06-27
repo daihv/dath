@@ -49,10 +49,9 @@ namespace Model.DAO
             db.Views.Add(viewDetail);
             db.SaveChanges();
         }
-        public void RemoveManga(int id)
+        public void RemoveManga(Manga entity)
         {
-            var manga = db.Mangas.Where(i => i.mId == id).FirstOrDefault();
-            db.Mangas.Remove(manga);
+            db.Mangas.Remove(entity);
             db.SaveChanges();
         }
         public void UnPublishedManga(int id)
@@ -65,6 +64,11 @@ namespace Model.DAO
         {
             var manga = db.Mangas.Where(i => i.mId == id).FirstOrDefault();
             manga.status = 0;
+            db.SaveChanges();
+        }
+        public void RemoveChapter(Chapter entity)
+        {
+            db.Chapters.Remove(entity);
             db.SaveChanges();
         }
     }

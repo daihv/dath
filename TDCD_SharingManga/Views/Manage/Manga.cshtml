@@ -39,7 +39,7 @@
                 var url1 = window.location.origin + "/Manga/C/";
                 for (var i in listChapters) {
                     result += "<p><a href='" + url1 + listChapters[i].chapterId + "'>" + listChapters[i].displayName + "</a><span>" +
-                        listChapters[i].postTime + "</span ><a href='/Manage/DeleteChapter/'" + listChapters[i].chapterId +">Xóa</a></p>";
+                        listChapters[i].postTime + "</span ><a href='/Manage/DeleteChapter/" + listChapters[i].chapterId + "' onclick='return confirm('Bạn có chắc muốn xóa？')>Xóa</a></p>";
                 }
                 $("#list-chapters").append(result);
 

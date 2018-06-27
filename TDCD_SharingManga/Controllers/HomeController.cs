@@ -32,6 +32,7 @@ namespace TDCD_SharingManga.Controllers
                 item.description = manga.mDescription;
                 item.author = manga.mAuthor;
                 item.totalView = manga.totalView;
+                item.status = manga.status;
                 listManga.Add(item);
             }
             return View(new PageListModel { listManga = listManga, page = page, total = db.Mangas.Count(), pageSize = Constants.PAGE_SIZE});
