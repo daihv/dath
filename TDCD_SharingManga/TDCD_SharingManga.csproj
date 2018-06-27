@@ -168,6 +168,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\ChapterDetail.cs" />
     <Compile Include="Models\ChapterInfo.cs" />
     <Compile Include="Models\ImageViewModel.cs" />
@@ -177,6 +178,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\chosen_v1.8.7\chosen-sprite.png" />
+    <Content Include="Assets\chosen_v1.8.7\chosen.min.css" />
     <Content Include="Assets\dist\css\sb-admin-2.css" />
     <Content Include="Assets\dist\css\sb-admin-2.min.css" />
     <Content Include="Assets\dist\js\sb-admin-2.js" />
@@ -273,6 +276,7 @@
     <Content Include="Assets\vendor\font-awesome\css\font-awesome.min.css" />
     <Content Include="Assets\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\vendor\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="Assets\vendor\jquery\jquery-1.12.4.min.js" />
     <Content Include="Assets\vendor\jquery\jquery.js" />
     <Content Include="Assets\vendor\jquery\jquery.min.js" />
     <Content Include="Assets\vendor\metisMenu\metisMenu.css" />
@@ -343,6 +347,7 @@
     <Content Include="Assets\vendor\font-awesome\scss\_stacked.scss" />
     <Content Include="Assets\vendor\font-awesome\scss\_variables.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

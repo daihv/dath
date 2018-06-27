@@ -3,10 +3,8 @@
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<script src="~/Assets/vendor/jquery/jquery.js"></script>
 <script type="text/javascript">
-    $(function () {
-        debugger;
+    $(document).ready(function () {
         $("#imgFile").change(function () {
             if (this.files && this.files[0]) {
                 var reader = new FileReader();
@@ -16,12 +14,16 @@
                 reader.readAsDataURL(this.files[0]);
             }
         })
+        $("#list-categories").chosen({
+            width: "70%"   
+        }
+        );
     });
     function BackToManage() {
         window.location = window.location.origin + "/Manage/Index";
     }
 </script>
-@using (Html.BeginForm("Create" ,"Manage", FormMethod.Post, new { enctype="multipart/form-data"}))
+@using (Html.BeginForm("Create", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -52,7 +54,12 @@
                 @Html.ValidationMessageFor(model => model.author, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            <label class="control-label col-md-4">Thể loại: </label>
+            <div class="col-md-8">
+                @Html.ListBoxFor(model => model.categories, new MultiSelectList(Model.listCategories, "id", "displayName"), new { id = "list-categories", multiple = "multiple" })
+            </div>
+        </div>
         <div class="form-group">
             <label class="control-label col-md-4">Ảnh bìa</label>
             <div class="col-md-8">
@@ -64,8 +71,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-4 col-md-8">
-                <input type="submit" value="Create" class="btn btn-default"/>
-                <input type="button" value="Cancel" class="btn btn-default" onclick="BackToManage()"/>
+                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="button" value="Cancel" class="btn btn-default" onclick="BackToManage()" />
             </div>
         </div>
     </div>

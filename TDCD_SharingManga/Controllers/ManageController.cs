@@ -23,6 +23,8 @@ namespace TDCD_SharingManga.Controllers
         public ActionResult Create()
         {
             var manga = new MangaDetail();
+            var listCategories = db.CategoryDetails.Select(i => new CategoryModel { id = i.categoryId, displayName = i.categoryName }).ToList();
+            manga.listCategories = listCategories;
             return View(manga);
         }
         [HttpPost]
@@ -45,6 +47,8 @@ namespace TDCD_SharingManga.Controllers
                     manga.mDescription = item.description;
                     MangaDao dao = new MangaDao();
                     int id = dao.AddManga(manga);
+                    AddCategory(id, item.categories);
+                    
                     if (Path.GetExtension(fileName).ToLower() == ".jpg"
                         || Path.GetExtension(fileName).ToLower() == ".png"
                         || Path.GetExtension(fileName).ToLower() == ".gif"
@@ -168,6 +172,8 @@ namespace TDCD_SharingManga.Controllers
                 if (user.UserName == "admin" || user.UserId == manga.CreatedBy )
                 {
                     var item = new MangaDetail();
+                    var listCategories = db.CategoryDetails.Select(i => new CategoryModel { id = i.categoryId, displayName = i.categoryName }).ToList();
+                    item.listCategories = listCategories;
                     item.mId = manga.mId;
                     var chapter = db.Chapters.OrderByDescending(i => i.cId)
                         .Where(i => i.mId == manga.mId).FirstOrDefault();
@@ -175,6 +181,8 @@ namespace TDCD_SharingManga.Controllers
                     item.createdBy = db.Users.Where(i => i.uId == manga.CreatedBy).FirstOrDefault().displayName;
                     item.updatedAt = manga.updatedAt;
                     item.chapters = manga.mChapter;
+                    var catIds = db.Categories.Where(i => i.mId == id).Select(i => i.categoryId).ToList();
+                    item.categories = catIds;
                     item.totalComment = manga.totalComment;
                     item.image = manga.image;
                     item.description = manga.mDescription;
@@ -227,11 +235,25 @@ namespace TDCD_SharingManga.Controllers
                 manga.updatedAt = DateTime.Now;
                 manga.mAuthor = mangaDetail.author;
                 manga.mDescription = mangaDetail.description;
+                AddCategory(mangaDetail.mId, mangaDetail.categories);
                 db.SaveChanges();
             }
             return RedirectToAction("UploadedManga");
         }
 
+        public void AddCategory(int mId, IEnumerable<int> list)
+        {
+            var dao = new MangaDao();
+            var oldCategories = db.Categories.Where(i => i.mId == mId);
+            db.Categories.RemoveRange(oldCategories);
+            foreach (var i in list)
+            {
+                var category = new Category();
+                category.mId = mId;
+                category.categoryId = i;
+                dao.AddCategory(category);
+            }
+        }
         public JsonResult GetChapters(int mangaId)
         {
             var listChapter = db.Chapters.Where(i => i.mId == mangaId).OrderBy(i => i.cPostOn).Select(i => new ChapterInfo

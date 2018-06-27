@@ -35,6 +35,21 @@ namespace Model.DAO
             db.SaveChanges();
             return entity.iId;
         }
+        public int AddCategory(Category entity)
+        {
+            db.Categories.Add(entity);
+            db.SaveChanges();
+            return entity.Id;
+        }
+        public void RemoveCategory(Category entity)
+        {
+            db.Categories.Remove(entity);
+            db.SaveChanges();
+        }
+        public void RemoveCategory(IEnumerable<Category> a)
+        {
+            db.Categories.RemoveRange(a);
+        }
         public void AddView(int mangaId)
         {
             var manga = db.Mangas.Where(i => i.mId == mangaId).FirstOrDefault();

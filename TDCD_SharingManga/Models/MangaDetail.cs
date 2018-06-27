@@ -14,12 +14,13 @@ namespace TDCD_SharingManga.Models
         public DateTime? updatedAt { get; set; }
         public int chapters { get; set; }
         public int totalComment { get; set; }
-        public string category { get; set; }
         public string description { get; set; }
         public string author { get; set; }
         public string lastestChapter { get; set; }
         public int totalView { get; set; }
         public int status { get; set; }
         public HttpPostedFileBase imgFile { get; set; }
+        public IEnumerable<int> categories { get; set; }
+        public IEnumerable<CategoryModel> listCategories { get; set; }
     }
 }

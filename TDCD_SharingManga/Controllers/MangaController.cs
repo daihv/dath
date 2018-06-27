@@ -38,6 +38,8 @@ namespace TDCD_SharingManga.Controllers
             item.description = manga.mDescription;
             item.author = manga.mAuthor;
             item.totalView = manga.totalView;
+            var categories = db.Categories.Where(i => i.mId == item.mId).Join(db.CategoryDetails, d => d.categoryId, f => f.categoryId, (d, f) => new { Category = d, CategoryDetail = f });
+            item.listCategories = categories.Select(i => new CategoryModel { id = i.Category.categoryId, displayName = i.CategoryDetail.categoryName}).ToList();
             return View(item);
         }
 

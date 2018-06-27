@@ -4,7 +4,7 @@
     var listItem = (IEnumerable<MangaDetail>)Model.listManga;
 }
 <head>
-    <script language="JavaScript" type="text/javascript" src="~/Assets/vendor/jquery/jquery.js"></script>
+    <script language="JavaScript" type="text/javascript"></script>
 </head>
 <script >
 
@@ -109,6 +109,13 @@
                     <div class="statictis mt5">
                         <span class="count"><span class="color-red">@i.chapters</span> chương</span> -
                         <span class="count"><span class="color-red">@i.totalComment</span> bình luận</span>
+                    </div>
+                    <div class="statictis mt5">
+                        <span>Thể loại: </span>
+                        @foreach (var c in i.listCategories)
+                            {
+                            <a href="/Home/Sort?categoryId=@c.id">@c.displayName</a>
+                            } -
                     </div>
                 </div>
             </div>

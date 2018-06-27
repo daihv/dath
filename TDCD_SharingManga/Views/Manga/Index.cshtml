@@ -7,7 +7,6 @@
     var i = (MangaDetail)Model;
 }
 <meta charset="utf-8" />
-<script src="~/Assets/vendor/jquery/jquery.min.js"></script>
 <script>
     $(function () {
         loadChapter(@i.mId);
@@ -130,6 +129,13 @@
                 <p>Tác giả: @i.author</p>
                 <p>Người đăng: @i.createdBy</p>
                 <p>Lượt xem: @i.totalView</p>
+                <p>
+                    <span>Thể loại: </span>
+                    @foreach(var c in i.listCategories)
+                    {
+                        <a href="/Home/Index/Sort?categoryId=@c.id">@c.displayName</a>
+                    }
+                </p>
                 <p>Update: @i.updatedAt.ToString()</p>
             </div>
             <div class="chapters fa-border">
