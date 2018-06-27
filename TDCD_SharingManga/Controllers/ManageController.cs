@@ -108,20 +108,51 @@ namespace TDCD_SharingManga.Controllers
         }
         public ActionResult DeleteManga(int id)
         {
+            var user = (UserLogin)Session[Constants.USER_SESSION];
             MangaDao dao = new MangaDao();
-            dao.RemoveManga(id);
+            var manga = db.Mangas.Where(i => i.mId == id).FirstOrDefault();
+            if(user.UserName == "admin" || user.UserId == manga.CreatedBy)
+                dao.RemoveManga(manga);
+            else
+            {
+                return RedirectToAction("Error");
+            }
             return RedirectToAction("Index", "Manage");
         }
-        public ActionResult Published(int id)
+
+        public ActionResult DeleteChapter(int id)
         {
             MangaDao dao = new MangaDao();
-            dao.RemoveManga(id);
+            var chapter = db.Chapters.Where(i => i.cId == id).FirstOrDefault();
+            var manga = db.Mangas.Where(i => i.mId == chapter.mId).FirstOrDefault();
+            var user = (UserLogin)Session[Constants.USER_SESSION];
+            if (user.UserName == "admin" || user.UserId == manga.CreatedBy)
+                dao.RemoveChapter(chapter);
+            else
+                return RedirectToAction("Error");
+            return RedirectToAction("Index", "Manage");
+        }
+
+        public ActionResult Published(int id)
+        {
+            var user = (UserLogin)Session[Constants.USER_SESSION];
+            var manga = db.Mangas.Where(i => i.mId == id).FirstOrDefault();
+            MangaDao dao = new MangaDao();
+            if (user.UserName == "admin" || user.UserId == manga.CreatedBy)
+                dao.PublishedManga(id);
+            else
+                return RedirectToAction("Error");
             return RedirectToAction("Index", "Manage");
         }
         public ActionResult UnPublished(int id)
         {
+            var user = (UserLogin)Session[Constants.USER_SESSION];
+            var manga = db.Mangas.Where(i => i.mId == id).FirstOrDefault();
             MangaDao dao = new MangaDao();
-            dao.RemoveManga(id);
+            if (user.UserName == "admin" || user.UserId == manga.CreatedBy)
+                dao.UnPublishedManga(id);
+            else
+                return RedirectToAction("Error");
             return RedirectToAction("Index", "Manage");
         }
 
